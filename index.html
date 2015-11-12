@@ -254,7 +254,7 @@ annotate -g Desulfuromonas_biwabikus_DDH964.fasta -p trusted_proteins.faa &amp;
 <p><strong>4.</strong>   A hallmark of bacteria that respire extracellular metals is an abundance of multiheme <em>c</em>-type cytochromes, redox proteins that efficiently move electrons around. Use the following Python scripts to collect information about the putative <em>c</em>-type cytochromes in your genome (Tab-autocomplete whenever possible!). For this, you want the <code>.gbk</code> (Genbank) file:</p>
 <pre><code>cd
 cd Dsoud_annotation
-get_multiheme_cytochromes Dsoud.gbk
+get_multiheme_cytochromes.py Dsoud.gbk
 cytochrome_stats.py Dsoud.gbk
 </code></pre>
 <p>How many cytochromes are there? Use <code>ls</code> and <code>less</code> to find the locus tag of the largest cytochrome in terms of a) molecular weight and b) number of heme-binding motifs.</p>
