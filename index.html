@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="./img/favicon.ico">
+
+	<title>Annotating Bacterial Genomes with Prokka</title>
+
+        <link href="./css/bootstrap-3.0.3.min.css" rel="stylesheet">
+        <link href="./css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link rel="stylesheet" href="./css/highlight.css">
+        <link href="./css/base.css" rel="stylesheet">
+        <link href="./extra.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <!-- Main title -->
+            <a class="navbar-brand" href=".">Annotating Bacterial Genomes with Prokka</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            <!-- Main navigation -->
+            <ul class="nav navbar-nav">
+            
+            
+                <li class="active">
+                    <a href=".">Home</a>
+                </li>
+            
+            
+            </ul>
+
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                <li class="disabled">
+                    <a rel="next" >
+                        <i class="fa fa-arrow-left"></i> Previous
+                    </a>
+                </li>
+                <li class="disabled">
+                    <a rel="prev" >
+                        Next <i class="fa fa-arrow-right"></i>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#introduction">Introduction</a></li>
+        
+    
+        <li class="main "><a href="#learning-objectives">Learning objectives</a></li>
+        
+    
+        <li class="main "><a href="#housekeeping-items">Housekeeping items</a></li>
+        
+    
+        <li class="main "><a href="#unix-shell-101">Unix shell 101</a></li>
+        
+            <li><a href="#pwd-and-ls-your-eyes-and-ears-in-the-shell">pwd and ls: your eyes and ears in the shell</a></li>
+        
+            <li><a href="#tab-autocompletion">Tab autocompletion</a></li>
+        
+            <li><a href="#cd-moving-around-in-the-shell">cd: moving around in the shell</a></li>
+        
+            <li><a href="#less-and-grep-viewing-and-collecting-information-from-text-files">less and grep: viewing and collecting information from text files</a></li>
+        
+    
+        <li class="main "><a href="#your-first-genome-annotation">Your first genome annotation</a></li>
+        
+            <li><a href="#viewing-the-annotation">Viewing the annotation</a></li>
+        
+    
+        <li class="main "><a href="#exercises">Exercises</a></li>
+        
+    
+        <li class="main "><a href="#bonus-exercises">Bonus exercises</a></li>
+        
+    
+        <li class="main "><a href="#faq">FAQ</a></li>
+        
+    
+        <li class="main "><a href="#papers-related-to-todays-lab">Papers related to today's lab</a></li>
+        
+    
+        <li class="main "><a href="#other-links">Other links</a></li>
+        
+    
+        <li class="main "><a href="#about">About</a></li>
+        
+    
+    </ul>
+</div></div>
+            <div class="col-md-9" role="main">
+
+<h1 id="introduction">Introduction</h1>
+<p>In this lesson you will connect to an <a href="https://aws.amazon.com">Amazon EC2</a> cloud computing instance to annotate a bacterial genome, and then mine the annotation to learn interesting things about the biology of the organism. You will work with a partner, but each student will use his/her own remote computer.</p>
+<h1 id="learning-objectives">Learning objectives</h1>
+<p>At the end of today's lesson, students will understand:</p>
+<ul>
+<li>foundational Unix shell commands (<code>ls</code>, <code>pwd</code>, <code>less</code>, <code>grep</code>, others as time permits)</li>
+<li>directory structure</li>
+<li>essential shell tricks to keep you from typing more than you have to (tab autocompletion and arrow keys)</li>
+<li>common bioinformatics file formats and the type of information each contains (<code>.fasta</code>, <code>.faa</code>, etc.)</li>
+</ul>
+<p>At the end of today's lesson, students will be able to:</p>
+<ul>
+<li><code>ssh</code> to a remote server from the Terminal</li>
+<li>interact with the Unix shell to extract information from text files</li>
+<li>explain the computational steps taken to predict and annotate genes in a bacterial genome</li>
+<li>run <a href="http://www.vicbioinformatics.com/software.prokka.shtml">Prokka</a> to annotate a bacterial genome</li>
+<li>execute scripts to answer specific questions about a genome annotation</li>
+</ul>
+<h1 id="housekeeping-items">Housekeeping items</h1>
+<p><strong>Copy-paste:</strong> unless I tell you otherwise, do not copy and paste commands into the Terminal! The point of this lesson is to become familiar with typing shell commands and to learn by repetition. This is one example where strict memorization is essential, and this will only happen if you practice typing EVERY command!</p>
+<p><strong>Stickies:</strong> use green stickies to signal that you are following along with the examples successfully, and use pink stickies to signal any sort of question/confusion/problem.</p>
+<p><strong><a href="http://ow.ly/TAwWE">Etherpad:</a></strong> the Etherpad is an online notepad for sharing notes, questions, and answers to exercise questions. If you have a question, type it into the Etherpad chat (as well as put up your pink sticky) so that your classmates can help.
+<em>Please be careful not to delete others' notes!</em></p>
+<h1 id="unix-shell-101">Unix shell 101</h1>
+<p>First, we need to log in to the remote Amazon instance. From your Mac, open Applications --&gt; Utilities --&gt; Terminal and type</p>
+<pre><code>ssh student@ec2-??-??-??-??.compute1.amazonaws.com
+</code></pre>
+<p>where <code>??-??-??-??</code> is the IP address of the instance you claimed in the <a href="http://ow.ly/TAwWE">Etherpad</a>. Type <code>yes</code> to add to the list of known hosts. When prompted, enter your password: <code>Gen0mic$</code></p>
+<h2 id="pwd-and-ls-your-eyes-and-ears-in-the-shell"><code>pwd</code> and <code>ls</code>: your eyes and ears in the shell</h2>
+<p><code>pwd</code> stands for print working directory. If you ever take a wrong turn, <code>pwd</code> is like GPS. <strong>Note:</strong> For simplicity and to make sure this lesson covers biology and not just shell, the Amazon instances have been configured to show the current working directory before the <code>$</code> command prompt.</p>
+<p><code>ls</code> lists the contents of the current working directory, and is analogous to graphically viewing the contents of folders on your desktop. The <code>ls</code> command commonly takes additional parameters, called <strong>arguments</strong>, which modify its default behavior. Some common ones are:</p>
+<ul>
+<li><code>-l</code> prints a long list including file attributes (size, ownership, date modified)</li>
+<li><code>-a</code> prints all files, including hidden files</li>
+<li><code>-t</code> sorts the list by when the file or directory was last modified</li>
+<li><code>-r</code> sorts in reverse order</li>
+<li><code>-F</code> denotes directories with a trailing <code>/</code></li>
+</ul>
+<p>In the Unix shell, you can pass multiple arguments together. For example</p>
+<pre><code>ls -lrt
+</code></pre>
+<p>will generate a long list sorted by time, with the most recent file listed last. This command is useful in situations where you want to verify that a file you expect was actually created or modified.</p>
+<h2 id="tab-autocompletion">Tab autocompletion</h2>
+<p>The Unix shell knows we're all lazy and hate typing, so we can press the Tab key whenever we need to automatically fill in the rest of a long file name. Try it! Type</p>
+<pre><code>D &lt;Tab&gt;
+D &lt;Tab&gt;&lt;Tab&gt;
+</code></pre>
+<p>Really, the reason tab autocompletion exists is to reduce or eliminate typing errors because, at least in this respect, computers are smarter than humans.</p>
+<h2 id="cd-moving-around-in-the-shell"><code>cd</code>: moving around in the shell</h2>
+<p><code>cd</code> stands for change directory. Tab autocompletion is your biggest friend with this command! Some examples:</p>
+<pre><code>cd Dbiwa_annotation
+</code></pre>
+<p>changes into the <code>Dbiwa_annotation</code> directory.</p>
+<pre><code>cd ..
+</code></pre>
+<p>moves up one directory. In Unix, <code>..</code> always means up one directory</p>
+<p>To get back to your <code>home</code> directory (on these instances, this means <code>/home/student</code>), you can type any of the following. Since this is such a common task, several redundancies are built in:</p>
+<pre><code>cd
+cd ~
+cd $HOME
+</code></pre>
+<p>All of these commands will take you back to the home directory.</p>
+<h2 id="less-and-grep-viewing-and-collecting-information-from-text-files"><code>less</code> and <code>grep</code>: viewing and collecting information from text files</h2>
+<p><code>less</code> allows you to view and scroll through files without opening them. Let's use <code>less</code> to take a peek inside one of the genomes we'll be annotating. Remember to always tab-autocomplete!</p>
+<pre><code>less Desulfuromonas_soudanensis_WTL.fasta
+</code></pre>
+<p>We can navigate through the file with different shortcut keys. The most commonly used are</p>
+<ul>
+<li><code>space bar</code> - page down</li>
+<li><code>b</code> - page up</li>
+<li><code>G</code> - go to end of file (useful for checking file integrity in certain situations)</li>
+</ul>
+<p>Like <code>ls</code>, <code>less</code> can take arguments as well. Two useful ones are:</p>
+<ul>
+<li><code>-S</code> - do not wrap long lines (useful when a file contains lines that are longer than will fit in your Terminal window)</li>
+<li><code>-N</code> - print line numbers (useful if you want to slice a file up to a certain line)</li>
+</ul>
+<p><code>grep</code> (global regular expression print) looks for lines in a file that contain a match  to a particular search pattern (case sensitive), and prints the entire line to the screen. For example</p>
+<pre><code>grep 'hypothetical' hgcAB.faa
+</code></pre>
+<p>will print any lines in <code>hgcAB.faa</code> that contain the search term 'hypothetical'. <code>grep</code> also takes some helpful arguments:</p>
+<ul>
+<li><code>-c</code> print only a count of the number of matches</li>
+<li><code>-v</code> invert match, i.e. print lines that do NOT contain the search term</li>
+<li><code>-i</code> ignore case</li>
+</ul>
+<p>A common task in bioinformatics is to count the number of sequences in a <a href="https://en.wikipedia.org/wiki/FASTA_format">FASTA</a> file. In this file format, each sequence begins with a header preceded by a caret <code>&gt;</code>. So, a <code>grep</code> command to count sequences would be</p>
+<pre><code>grep -c '&gt;' some_file.fasta
+</code></pre>
+<p>Note that a FASTA file can contain either nucleic acid or protein sequence.</p>
+<h1 id="your-first-genome-annotation">Your first genome annotation</h1>
+<p>Now we're ready to set up our first annotation. Remember to tab-autocomplete whenever possible to eliminate typing errors and to confirm that the computer is doing what you think it should be. For odd-numbered groups:</p>
+<pre><code>annotate -g Desulfuromonas_soudanensis_WTL.fasta
+</code></pre>
+<p>For even-numbered groups:</p>
+<pre><code>annotate -g Desulfuromonas_biwabikus_DDH964.fasta
+</code></pre>
+<h2 id="viewing-the-annotation">Viewing the annotation</h2>
+<p>Once the annotation completes (how long do you think it will take?), use your Unix shell skills to move into the annotation directory and familiarize yourself with the different output files. </p>
+<pre><code>cd Dsoud_annotation
+</code></pre>
+<p>or</p>
+<pre><code>cd Dbiwab_annotation
+</code></pre>
+<p>Use <code>ls</code> to list the files and <code>less</code> to take a peek at a few of the output files. What kind of information does each file contain? </p>
+<h1 id="exercises">Exercises</h1>
+<p><strong>Post your results to the Etherpad as you answer these questions.</strong> Be sure to specify which genome you are working with.</p>
+<p><img alt="Koala" src="./koala.jpg" /></p>
+<p><strong>1.</strong>   Just like when you collect data at the bench, a good rule of thumb is to never trust your bioinformatics software until you exhaustively reproduce and verify the results. How can we be sure that the annotation we generated isn't full of mistakes? One way we can ensure that annotation errors are not propagated onto new genomes is to use a set of trusted protein sequences from a closely related organism. We will tell the <code>annotate</code> command to use the <code>-p</code> option and then specify a file of proteins. Type the following (for odd-numbered groups):</p>
+<pre><code>cd
+annotate -g Desulfuromonas_soudanensis_WTL.fasta -p trusted_proteins.faa &amp;
+</code></pre>
+<p>For even-numbered groups:</p>
+<pre><code>cd
+annotate -g Desulfuromonas_biwabikus_DDH964.fasta -p trusted_proteins.faa &amp;
+</code></pre>
+<p>The trailing <code>&amp;</code> tells the computer to run the command in the background, so that you can answer the following questions. </p>
+<p><strong>2.</strong>   Use <code>grep</code> to count the number of a) proteins, b) tRNAs, and c) rRNAs and d) ATP synthases in your genome. Do these numbers make sense? Do they agree with the values in the <code>Dsoud.txt</code> or <code>Dbiwa.txt</code> files?</p>
+<p><strong>3.</strong>   Find the gene locus tag(s) (e.g. DSOUD_1234, DBIWA_1234) corresponding to the following:</p>
+<ul>
+<li>tRNA charged with cysteine</li>
+<li>sigma factor RpoN</li>
+<li>the F subunit of NADH dehydrogenase</li>
+</ul>
+<p><strong>4.</strong>   A hallmark of bacteria that respire extracellular metals is an abundance of multiheme <em>c</em>-type cytochromes, redox proteins that efficiently move electrons around. Use the following Python scripts to collect information about the putative <em>c</em>-type cytochromes in your genome (Tab-autocomplete whenever possible!). For this, you want the <code>.gbk</code> (Genbank) file:</p>
+<pre><code>cd
+cd Dsoud_annotation
+get_multiheme_cytochromes Dsoud.gbk
+cytochrome_stats.py Dsoud.gbk
+</code></pre>
+<p>How many cytochromes are there? Use <code>ls</code> and <code>less</code> to find the locus tag of the largest cytochrome in terms of a) molecular weight and b) number of heme-binding motifs.</p>
+<p><strong>5.</strong>  By now, your second genome annotation from Question 1 should be complete. What arguments can you pass to <code>ls</code> to look for a recently generated directory containing the new results?</p>
+<p>Let's compare the two annotations:</p>
+<pre><code>cd
+grep -c '&gt;' *annotation/*.faa
+</code></pre>
+<p>In Unix, * means wild card, and the shell will match anything that can autoexpand to fill the wild card.  The above command allows us to count the number of protein sequences in both annotations simultaneously.</p>
+<p>Write another <code>grep</code> command to count the number of hypothetical proteins in both annotations. Is there a difference? Why or why not? Write your answers to the Etherpad.</p>
+<h1 id="bonus-exercises">Bonus exercises</h1>
+<p><strong>B1.</strong> One of the first things we look for in new genomes is evidence for conserved protein sequences. In this group of Deltaproteobacteria, genes for mercury methylation (<em>hgcAB</em>) are common (for further reading, see links to papers below). Methylmercury is more toxic than mercury because the methyl group makes it lipophilic, and so methylmercury bioaccumulates as it moves up aquatic food chains. Do a <code>grep</code> search - do you see any evidence for mercury methylation genes? Be creative with your search terms, and remember that <strong>absence of evidence is not evidence of absence.</strong></p>
+<p>A more robust approach is to look at the amino acid sequences themselves and search for homologous proteins. The tool for this is called BLAST (Basic Local Alignment Search Tool). To use BLAST, we first need to make a database of our annotated proteins (modify as necessary if you are in an even-numbered group). Remember, always tab-autocomplete!</p>
+<pre><code>cd
+makeblastdb -in Dsoud_annotation/Dsoud.faa -out Dsoud_blastdb -dbtype prot
+</code></pre>
+<p>Then, run BLAST using the file of HgcAB protein sequences provided:</p>
+<pre><code>blastp -query hgcAB.faa -db Dsoud_blastdb -out blastp_results.txt
+</code></pre>
+<p>Examine the output file. Does your genome contain genes encoding <em>HgcAB</em> homologs? If so, write their locus tags to the Etherpad.</p>
+<p><strong>B2.</strong>  The <code>.gff</code> (general feature format) file contains information about whether a gene is on the plus or minus strand. Using your Unix cheat sheet, write a command to count the number of genes on each DNA strand.  <strong>Hint:</strong> use the Unix pipe <code>|</code> to take the output from one command and redirect it into another. How can you avoid incorrectly counting lines that have a <code>+</code> or <code>-</code> in the protein name?</p>
+<h1 id="faq">FAQ</h1>
+<p><strong>Why are we connecting to a remote computer? Can't we use the computer we have?</strong>
+In theory, yes. But there are a few key reasons why we're using remote computers:</p>
+<ul>
+<li>Prokka (the genome annotation tool we are using) requires several additional tools already be installed (called <em>dependencies</em>), and it is not trivial to install them</li>
+<li>Reproducibility: I created a "snapshot" (called an Amazon Machine Instance, or AMI) of a computer with Prokka and its dependencies already installed. Therefore each student is using the same software in the same computing environment, which guarantees that everyone's results will be reproducible.</li>
+<li>You can't break a remote machine. Even if something goes horribly wrong, you can be back up to speed in minutes by simply re-launching another Amazon instance.</li>
+</ul>
+<p><strong>What do I do if I get a <code>broken pipe</code> error message?</strong>
+This happens occasionally when the network connection between your local computer and the remote server is lost. To reconnect to the remote instance, in the Mac Terminal, press the up arrow key to re-run the last <code>ssh student@ec2...</code> command.</p>
+<p><strong>Where did the genomes come from?</strong> The two <em>Desulfuromonas</em> genomes used in today's lesson were sequenced by Jon and came from a half mile underground in the <a href="http://www.dnr.state.mn.us/state_parks/lake_vermilion_soudan/index.html">Soudan Iron Mine</a>. Both organisms make a living by respiring extracellular metals instead of oxygen.</p>
+<h1 id="papers-related-to-todays-lab">Papers related to today's lab</h1>
+<ul>
+<li>Seemann T. 2014. Prokka: rapid prokaryotic genome annotation. <em>Bioinformatics</em> <strong>11</strong>:119.</li>
+<li>Hyatt D et al. 2010. Prodigal: prokaryotic gene recognition and translation initiation site identification. <em>BMC Bioinformatics</em> <strong>30</strong>:2068-2069.</li>
+<li>Parks JM et al. 2013. The genetic basis for bacterial mercury methylation. <em>Science</em> <strong>339</strong>:1332–1335.</li>
+<li>Podar M et al. 2015. Global prevalence and distribution of genes and microorganisms involved in mercury methylation. <em>Science Advances</em> <strong>1</strong>:e1500675–e1500675.</li>
+</ul>
+<p><a href="http://ow.ly/TEBQ3">Link to PDF files</a></p>
+<h1 id="other-links">Other links</h1>
+<ul>
+<li><a href="https://www.dropbox.com/s/h6rousr0rc5ixwo/Unix_shell_cheat_sheet.pdf?dl=0">Unix shell cheat sheet handout</a></li>
+<li><a href="https://www.youtube.com/watch?v=s9UbA7VyISQ">Evolution of DNA Sequencing</a> - seminar by Jonathan Eisen</li>
+</ul>
+<h1 id="about">About</h1>
+<p>This lesson was created by Jon Badalamenti (@jbadomics), University of Minnesota, October 2015.</p></div>
+        </div>
+
+	<footer class="col-md-12">
+		<hr>
+		
+		<center>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</center>
+	</footer>
+
+
+        <script src="./js/jquery-1.10.2.min.js"></script>
+        <script src="./js/bootstrap-3.0.3.min.js"></script>
+        <script src="./js/highlight.pack.js"></script>
+        <script src="./js/base.js"></script>
+    </body>
+</html>
