@@ -223,5 +223,5 @@ This happens occasionally when the network connection between your local compute
 *   [Unix shell cheat sheet handout](https://www.dropbox.com/s/h6rousr0rc5ixwo/Unix_shell_cheat_sheet.pdf?dl=0)
 *   [Evolution of DNA Sequencing](https://www.youtube.com/watch?v=s9UbA7VyISQ) - seminar by Jonathan Eisen
 
-# About
+# About/Contact
 This lesson was created by Jon Badalamenti (**email** jonb *\[at\]* umn *\[dot\]* edu  |  **twitter** @jbadomics), University of Minnesota, October 2015.
