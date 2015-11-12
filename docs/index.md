@@ -224,4 +224,4 @@ This happens occasionally when the network connection between your local compute
 *   [Evolution of DNA Sequencing](https://www.youtube.com/watch?v=s9UbA7VyISQ) - seminar by Jonathan Eisen
 
 # About
-This lesson was created by Jon Badalamenti (@jbadomics), University of Minnesota, October 2015.
+This lesson was created by Jon Badalamenti (**email** jonb \[at\] umn \[dot\] edu \| **twitter** @jbadomics), University of Minnesota, October 2015.
