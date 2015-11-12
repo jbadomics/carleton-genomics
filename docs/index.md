@@ -165,7 +165,7 @@ The trailing `&` tells the computer to run the command in the background, so tha
 
     cd
     cd Dsoud_annotation
-    get_multiheme_cytochromes Dsoud.gbk
+    get_multiheme_cytochromes.py Dsoud.gbk
     cytochrome_stats.py Dsoud.gbk
 
 How many cytochromes are there? Use `ls` and `less` to find the locus tag of the largest cytochrome in terms of a) molecular weight and b) number of heme-binding motifs.
