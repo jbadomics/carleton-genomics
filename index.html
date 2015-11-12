@@ -274,7 +274,7 @@ makeblastdb -in Dsoud_annotation/Dsoud.faa -out Dsoud_blastdb -dbtype prot
 <p>Then, run BLAST using the file of HgcAB protein sequences provided:</p>
 <pre><code>blastp -query hgcAB.faa -db Dsoud_blastdb -out blastp_results.txt
 </code></pre>
-<p>Examine the output file. Does your genome contain genes encoding <em>HgcAB</em> homologs? If so, write their locus tags to the Etherpad.</p>
+<p>Examine the output file. Does your genome contain genes encoding HgcAB homologs? If so, write their locus tags to the Etherpad.</p>
 <p><strong>B2.</strong>  The <code>.gff</code> (general feature format) file contains information about whether a gene is on the plus or minus strand. Using your Unix cheat sheet, write a command to count the number of genes on each DNA strand.  <strong>Hint:</strong> use the Unix pipe <code>|</code> to take the output from one command and redirect it into another. How can you avoid incorrectly counting lines that have a <code>+</code> or <code>-</code> in the protein name?</p>
 <h1 id="faq">FAQ</h1>
 <p><strong>Why are we connecting to a remote computer? Can't we use the computer we have?</strong>
